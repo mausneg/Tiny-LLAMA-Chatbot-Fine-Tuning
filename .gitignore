@@ -2,3 +2,4 @@
 saved_models
 train_dir
 *.ipynb
+__pycache__

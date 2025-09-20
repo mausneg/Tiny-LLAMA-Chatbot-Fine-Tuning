@@ -1,26 +1,27 @@
 from fastapi import FastAPI, Request
 from peft import AutoPeftModelForCausalLM
 import os
-import torch
-from pydantic import BaseModel
 from transformers import pipeline, AutoTokenizer
-
-class Message(BaseModel):
-    role: str
-    content: list[str]
+from utils.io import download_dir
+from utils.data_model import Message
 
 app = FastAPI()
 
-MODEL_NAME = 'TinyLlama/TinyLlama-1.1B-intermediate-step-1431k-3T'
+MODEL_NAME = 'TinyLlama-1.1B-Chat-v1.1'
+MODEL_PATH = f'saved_models/{MODEL_NAME}'
+
+if not os.path.exists(MODEL_PATH):
+    download_dir(MODEL_PATH, MODEL_NAME)
+
 model = AutoPeftModelForCausalLM.from_pretrained(
-    "saved_models/TinyLlama-1.1B-Chat-v1.1",
+    MODEL_PATH,
     device_map='auto',
     load_in_8bit=True,
 )
 
 merged_model = model.merge_and_unload()
 
-tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME, trust_remote_code=True)
+tokenizer = AutoTokenizer.from_pretrained('TinyLlama/TinyLlama-1.1B-intermediate-step-1431k-3T', trust_remote_code=True)
 tokenizer.pad_token = '<PAD>'
 tokenizer.padding_size = 'left'
 

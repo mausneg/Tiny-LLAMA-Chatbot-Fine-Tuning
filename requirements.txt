@@ -12,3 +12,4 @@ transformers
 trl
 uvicorn
 peft
+boto3

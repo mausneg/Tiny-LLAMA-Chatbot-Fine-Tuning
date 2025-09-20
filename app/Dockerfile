@@ -10,7 +10,7 @@ RUN pip install -r requirements.txt
 
 
 COPY app app
-
+COPY utils utils
 COPY saved_models/TinyLlama-1.1B-Chat-v1.1 saved_models/TinyLlama-1.1B-Chat-v1.1
 
 CMD ["uvicorn", "app.app:app", "--host", "0.0.0.0", "--port", "5003"]
