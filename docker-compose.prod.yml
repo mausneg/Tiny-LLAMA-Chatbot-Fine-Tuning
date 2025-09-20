@@ -1,0 +1,11 @@
+services:
+  app:
+    image: mausneg/tiny-llama-chatbot-app:latest
+    ports:
+      - "5003:5003"
+  nginx:
+    image: mausneg/tiny-llama-chatbot-nginx:latest
+    depends_on:
+      - app
+    ports:
+      - "8082:8082"
