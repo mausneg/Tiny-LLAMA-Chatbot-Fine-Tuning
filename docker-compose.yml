@@ -2,7 +2,7 @@ services:
   app:
     build:
       context: .
-      dockerfile: app/Dockerfile
+      dockerfile: api/Dockerfile
     ports:
       - "5003:5003"
   nginx:

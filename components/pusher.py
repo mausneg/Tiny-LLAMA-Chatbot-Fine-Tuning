@@ -33,4 +33,4 @@ def upload_folder(folder_path, s3_prefix):
 
 if __name__ == "__main__":
     create_bucket(BUCKET_NAME)
-    upload_folder('saved_models/TinyLlama-1.1B-Chat-v1.1', 'saved_models/TinyLlama-1.1B-Chat-v1.1')
+    upload_folder('saved_models/TinyLlama-1.1B-Chat-v1.2', 'saved_models/TinyLlama-1.1B-Chat-v1.2')

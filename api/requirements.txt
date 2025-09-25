@@ -13,4 +13,3 @@ trl
 uvicorn
 peft
 boto3
-streamlit

@@ -21,7 +21,7 @@ if __name__ == "__main__":
     dataset_train = dataset['train_sft']
     dataset_test = dataset['test_sft']
     dataset = DatasetDict({
-        'train': dataset_train.shuffle(seed=42).take(100_000),
+        'train': dataset_train,
         'test': dataset_test
     })
     dataset = dataset.map(format_prompt, remove_columns=dataset['train'].column_names)
@@ -72,7 +72,7 @@ if __name__ == "__main__":
         fp16=True,
         gradient_checkpointing=True,
         packing=True,
-        max_length=512,
+        max_length=2048,
         dataset_text_field="text",
         completion_only_loss=False,
     )
