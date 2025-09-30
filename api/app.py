@@ -23,7 +23,7 @@ MODEL_PATH = f'saved_models/{MODEL_NAME}'
 MAX_LENGTH = 2048
 
 if not os.path.exists(MODEL_PATH):
-    download_dir(MODEL_PATH, MODEL_NAME)
+    download_dir('saved_models', MODEL_NAME)
     
 model = AutoPeftModelForCausalLM.from_pretrained(
     MODEL_PATH,
@@ -60,7 +60,13 @@ async def conversation_endpoint(data: Message):
     user_message = "\n".join(data.content)
     add_to_conversation("user", user_message)
     full_prompt = get_full_prompt()
-    response = pipe(full_prompt)
+    response = pipe(
+                    full_prompt, 
+                    max_new_tokens=256, 
+                    do_sample=True, 
+                    top_p=0.9, 
+                    temperature=0.6
+                )
     assistant_message = response[0]['generated_text']
     add_to_conversation("assistant", assistant_message)
     return {"response": assistant_message}

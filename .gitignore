@@ -1,4 +1,5 @@
 .venv
+.env
 saved_models
 train_dir
 *.ipynb

@@ -3,12 +3,17 @@ services:
     build:
       context: .
       dockerfile: api/Dockerfile
+    container_name: tinyllama_api
+    # comment env_file in production
+    env_file:
+      - .env
     ports:
       - "5003:5003"
   nginx:
     build:
       context: .
       dockerfile: nginx/Dockerfile
+    container_name: tinyllama_nginx
     depends_on:
       - app
     ports:
