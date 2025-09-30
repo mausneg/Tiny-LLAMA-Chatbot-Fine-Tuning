@@ -4,6 +4,11 @@ from datetime import datetime
 import re
 import html
 
+conversation_history = []
+
+def add_to_conversation(role, message):
+    conversation_history.append(f"<|{role}|>\n{message}")
+
 # Page config
 st.set_page_config(
     page_title="TinyLlama AI Assistant",
@@ -307,11 +312,12 @@ def clean_response(response_text):
     return cleaned
 
 def send_message_to_api(message):
-    """Send message to FastAPI backend"""
+    add_to_conversation("user", message)
     try:
         payload = {
-            "role": "user",
-            "content": [message]
+            "timestamp": datetime.now().isoformat(),
+            "content": conversation_history,
+
         }
         response = requests.post(
             CONVERSATION_ENDPOINT,
@@ -326,6 +332,7 @@ def send_message_to_api(message):
             raw_response = result.get("response", "No response received")
             # Clean the response before returning
             cleaned_response = clean_response(raw_response)
+            add_to_conversation("assistant", cleaned_response)
             return cleaned_response
         else:
             return f"Error: {response.status_code} - {response.text}"
@@ -341,20 +348,18 @@ def display_message(message, is_user=True):
     """Display a message with appropriate styling"""
     timestamp = datetime.now().strftime("%H:%M")
     
-    # Escape HTML characters to prevent rendering issues
-    escaped_message = html.escape(message)
-    
+    # Jika pesan sudah mengandung HTML yang ingin dirender, jangan di-escape
     if is_user:
         st.markdown(f"""
         <div class="user-message">
-            <div>{escaped_message}</div>
+            <div>{message}</div>
             <div class="timestamp">{timestamp}</div>
         </div>
         """, unsafe_allow_html=True)
     else:
         st.markdown(f"""
         <div class="assistant-message">
-            <div>{escaped_message}</div>
+            <div>{message}</div>
             <div class="timestamp">{timestamp}</div>
         </div>
         """, unsafe_allow_html=True)
@@ -466,6 +471,7 @@ with st.sidebar:
     with col1:
         if st.button("Clear", use_container_width=True, help="Clear conversation history", key="clear_btn"):
             st.session_state.messages = []
+            conversation_history.clear()
             st.rerun()
     
     with col2:

@@ -39,12 +39,7 @@ tokenizer.padding_size = 'left'
 
 pipe = pipeline('text-generation', model=merged_model, tokenizer=tokenizer)
 
-conversation_history = []
-
-def add_to_conversation(role, message):
-    conversation_history.append(f"<|{role}|>\n{message}")
-
-def get_full_prompt():
+def get_full_prompt(conversation_history):
     prompt = "\n".join(conversation_history) + "\n<|assistant|>\n"
     tokens = tokenizer.encode(prompt, add_special_tokens=False)
     if len(tokens) > MAX_LENGTH:
@@ -52,23 +47,12 @@ def get_full_prompt():
     trimmed_prompt = tokenizer.decode(tokens, skip_special_tokens=True)
     return trimmed_prompt
 
-def get_recent_messages(n=4):
-    return "\n".join(conversation_history[-n:]) + "\n<|assistant|>\n"
-
 @app.post("/api/v1/conversation")
 async def conversation_endpoint(data: Message):
-    user_message = "\n".join(data.content)
-    add_to_conversation("user", user_message)
-    full_prompt = get_full_prompt()
-    response = pipe(
-                    full_prompt, 
-                    max_new_tokens=256, 
-                    do_sample=True, 
-                    top_p=0.9, 
-                    temperature=0.6
-                )
+    conversation_history = data.content
+    full_prompt = get_full_prompt(conversation_history)
+    response = pipe(full_prompt)
     assistant_message = response[0]['generated_text']
-    add_to_conversation("assistant", assistant_message)
     return {"response": assistant_message}
 
 @app.delete("/api/v1/conversation")

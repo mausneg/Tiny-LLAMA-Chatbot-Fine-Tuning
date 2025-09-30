@@ -9,6 +9,11 @@ services:
       - .env
     ports:
       - "5003:5003"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: [gpu]
   nginx:
     build:
       context: .
