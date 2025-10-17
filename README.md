@@ -57,9 +57,8 @@ A production-ready conversational AI chatbot powered by TinyLlama-1.1B model wit
    
    Create a `.env` file in the project root:
    ```bash
-   AWS_ACCESS_KEY_ID=your_access_key_id
-   AWS_SECRET_ACCESS_KEY=your_secret_access_key
-   AWS_DEFAULT_REGION=us-east-1
+   AWS_ACCESS_KEY_ID=your_aws_access_key_id
+   AWS_SECRET_ACCESS_KEY=your_aws_secret_access_key
    ```
 
 3. Start the application:
@@ -193,17 +192,8 @@ s3_prefix = "saved_models"
 Create a `.env` file with the following variables:
 
 ```bash
-# AWS Configuration
-AWS_ACCESS_KEY_ID=your_access_key
-AWS_SECRET_ACCESS_KEY=your_secret_key
-AWS_DEFAULT_REGION=us-east-1
-
-# Model Configuration
-MODEL_NAME=TinyLlama-1.1B-Chat-v1.2
-MAX_LENGTH=2048
-
-# GPU Configuration (optional)
-CUDA_VISIBLE_DEVICES=0
+AWS_ACCESS_KEY_ID=your_aws_access_key_id
+AWS_SECRET_ACCESS_KEY=your_aws_secret_access_key
 ```
 
 ### Docker Compose Configuration
