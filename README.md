@@ -9,7 +9,7 @@
   <a href="#features">Features</a> •
   <a href="#api-reference">API Docs</a> •
   <a href="#deployment">Deployment</a> •
-  <a href="https://www.canva.com/design/DAG1xSh07_c/M_hb1V3nN00kk1GphQRBNg/edit?utm_content=DAG1xSh07_c&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton">Full Documentation</a>
+  <a href="https://www.canva.com/design/DAG1xSh07_c/M_hb1V3nN00kk1GphQRBNg/edit?utm_content=DAG1xSh07_c&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton">Slide Deck</a>
 </p>
 
 ---
@@ -17,6 +17,25 @@
 ## Overview
 
 This project provides a complete solution for deploying and fine-tuning TinyLlama-1.1B language model as a conversational AI chatbot. It includes a FastAPI backend, Streamlit web interface, and containerized deployment with Docker Compose.
+
+## Table of Contents
+
+- [Overview](#overview)
+- [Screenshots](#screenshots)
+- [Features](#features)
+- [Project Structure](#project-structure)
+- [Quick Start](#quick-start)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+  - [Manual Setup](#manual-setup-without-docker)
+- [API Reference](#api-reference)
+- [Configuration](#configuration)
+- [Model Fine-Tuning](#model-fine-tuning)
+- [Deployment](#deployment)
+- [Troubleshooting](#troubleshooting)
+- [Technology Stack](#technology-stack)
+- [Contributing](#contributing)
+- [License](#license)
 
 ### Key Highlights
 
@@ -55,25 +74,6 @@ This project provides a complete solution for deploying and fine-tuning TinyLlam
 | **Fine-tuning Ready** | PEFT adapters for parameter-efficient training |
 | **GPU Acceleration** | 8-bit quantization for optimized inference |
 | **AWS S3 Integration** | Cloud storage for model versioning and deployment |
-
-## Table of Contents
-
-- [Overview](#overview)
-- [Screenshots](#screenshots)
-- [Features](#features)
-- [Project Structure](#project-structure)
-- [Quick Start](#quick-start)
-  - [Prerequisites](#prerequisites)
-  - [Installation](#installation)
-  - [Manual Setup](#manual-setup-without-docker)
-- [API Reference](#api-reference)
-- [Configuration](#configuration)
-- [Model Fine-Tuning](#model-fine-tuning)
-- [Deployment](#deployment)
-- [Troubleshooting](#troubleshooting)
-- [Technology Stack](#technology-stack)
-- [Contributing](#contributing)
-- [License](#license)
 
 ## Project Structure
 
