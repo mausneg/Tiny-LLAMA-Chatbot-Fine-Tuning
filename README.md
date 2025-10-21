@@ -1,108 +1,188 @@
 # TinyLlama Chatbot Fine-Tuning
 
-A production-ready conversational AI chatbot powered by TinyLlama-1.1B model with fine-tuning capabilities. This project includes a FastAPI backend, Streamlit web interface, and Docker deployment configuration.
+<p align="center">
+  <strong>A production-ready conversational AI chatbot powered by TinyLlama-1.1B with fine-tuning capabilities</strong>
+</p>
+
+<p align="center">
+  <a href="#quick-start">Quick Start</a> •
+  <a href="#features">Features</a> •
+  <a href="#api-reference">API Docs</a> •
+  <a href="#deployment">Deployment</a> •
+  <a href="https://www.canva.com/design/DAG1xSh07_c/M_hb1V3nN00kk1GphQRBNg/edit?utm_content=DAG1xSh07_c&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton">Full Documentation</a>
+</p>
+
+---
+
+## Overview
+
+This project provides a complete solution for deploying and fine-tuning TinyLlama-1.1B language model as a conversational AI chatbot. It includes a FastAPI backend, Streamlit web interface, and containerized deployment with Docker Compose.
+
+### Key Highlights
+
+- **Lightweight & Fast**: Optimized with 8-bit quantization for efficient inference
+- **Production Ready**: Multi-container architecture with Nginx reverse proxy
+- **Fine-tuning Support**: Built-in PEFT adapters for custom training
+- **Cloud Storage**: AWS S3 integration for model versioning and storage
 
 ## Screenshots
 
-### Streamlit Web Interface
+<details>
+<summary><b>View Application Screenshots</b></summary>
+
+<br>
+
+**Deployment Architecture**
+![Deployment Scenario](assets/images/deploying-scenario.png)
+
+**Streamlit Web Interface**
 ![Streamlit UI](assets/images/streamlit-ui.png)
 
-### Usage Example
+**Conversation Example**
 ![Sample Conversation](assets/images/sample.png)
+
+</details>
 
 ## Features
 
-- **TinyLlama-1.1B Model**: Lightweight language model optimized for conversational AI
-- **Conversation Memory**: Maintains chat history with intelligent context management
-- **FastAPI Backend**: High-performance REST API with automatic documentation
-- **Streamlit Frontend**: Interactive web interface for chat interactions
-- **Docker Support**: Multi-container deployment with Nginx reverse proxy
-- **Fine-tuning Ready**: Built with PEFT (Parameter Efficient Fine-Tuning) support
-- **GPU Acceleration**: 8-bit quantization for optimized performance
-- **AWS S3 Integration**: Model storage and retrieval from cloud storage
+| Feature | Description |
+|---------|-------------|
+| **TinyLlama-1.1B Model** | Lightweight language model optimized for conversational AI |
+| **Conversation Memory** | Intelligent context management with configurable history length |
+| **FastAPI Backend** | High-performance REST API with OpenAPI documentation |
+| **Streamlit Frontend** | Interactive web interface with real-time chat |
+| **Docker Support** | Multi-container orchestration with GPU support |
+| **Fine-tuning Ready** | PEFT adapters for parameter-efficient training |
+| **GPU Acceleration** | 8-bit quantization for optimized inference |
+| **AWS S3 Integration** | Cloud storage for model versioning and deployment |
+
+## Table of Contents
+
+- [Overview](#overview)
+- [Screenshots](#screenshots)
+- [Features](#features)
+- [Project Structure](#project-structure)
+- [Quick Start](#quick-start)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+  - [Manual Setup](#manual-setup-without-docker)
+- [API Reference](#api-reference)
+- [Configuration](#configuration)
+- [Model Fine-Tuning](#model-fine-tuning)
+- [Deployment](#deployment)
+- [Troubleshooting](#troubleshooting)
+- [Technology Stack](#technology-stack)
+- [Contributing](#contributing)
+- [License](#license)
 
 ## Project Structure
 
 ```
-├── api/                    # FastAPI backend
-│   ├── app.py             # Main API server
-│   ├── Dockerfile         # API container configuration
-│   └── requirements.txt   # API dependencies
-├── app/                   # Streamlit frontend
-│   ├── app.py             # Web interface
-│   ├── Dockerfile         # Frontend container configuration
-│   └── requirements.txt   # Frontend dependencies
-├── components/            # Training and deployment utilities
-│   ├── trainer.py         # Model training script
-│   └── pusher.py          # Model deployment script
-├── utils/                 # Shared utilities
-│   ├── data_model.py      # Pydantic data models
-│   └── io.py              # AWS S3 I/O operations
-├── saved_models/          # Fine-tuned model storage
-├── nginx/                 # Reverse proxy configuration
+Tiny-LLAMA-Chatbot-Fine-Tuning/
+│
+├── api/                        # FastAPI Backend Service
+│   ├── app.py                  # Main API server with conversation endpoints
+│   ├── Dockerfile              # API container configuration
+│   └── requirements.txt        # Backend dependencies
+│
+├── app/                        # Streamlit Frontend Service
+│   ├── app.py                  # Web interface application
+│   ├── Dockerfile              # Frontend container configuration
+│   └── requirements.txt        # Frontend dependencies
+│
+├── components/                 # Training & Deployment Utilities
+│   ├── trainer.py              # Model fine-tuning script
+│   └── pusher.py               # Model deployment to S3
+│
+├── utils/                      # Shared Utilities
+│   ├── data_model.py           # Pydantic data models
+│   └── io.py                   # AWS S3 I/O operations
+│
+├── saved_models/               # Fine-tuned Model Storage
+│   ├── TinyLlama-1.1B-Chat-v1.0/
+│   ├── TinyLlama-1.1B-Chat-v1.1/
+│   └── TinyLlama-1.1B-Chat-v1.2/  # Current version
+│
+├── nginx/                      # Reverse Proxy Configuration
 │   ├── Dockerfile
 │   └── nginx.conf
-└── docker-compose.yml     # Multi-container orchestration
+│
+├── assets/                     # Documentation Assets
+│   └── images/
+│
+├── docker-compose.yml          # Multi-container orchestration
+├── docker-compose.prod.yml     # Production configuration
+└── requirements.txt            # Root dependencies
 ```
 
 ## Quick Start
 
 ### Prerequisites
 
-- Docker and Docker Compose
-- NVIDIA GPU with CUDA support (recommended)
-- AWS credentials for S3 model storage
+| Requirement | Description |
+|-------------|-------------|
+| **Docker & Docker Compose** | Container orchestration platform |
+| **NVIDIA GPU** | Recommended for faster inference (optional) |
+| **AWS Account** | For S3 model storage access |
 
 ### Installation
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/mausneg/Tiny-LLAMA-Chatbot-Fine-Tuning.git
-   cd Tiny-LLAMA-Chatbot-Fine-Tuning
-   ```
+**Step 1: Clone the Repository**
+```bash
+git clone https://github.com/mausneg/Tiny-LLAMA-Chatbot-Fine-Tuning.git
+cd Tiny-LLAMA-Chatbot-Fine-Tuning
+```
 
-2. Configure AWS credentials:
-   
-   Create a `.env` file in the project root:
-   ```bash
-   AWS_ACCESS_KEY_ID=your_aws_access_key_id
-   AWS_SECRET_ACCESS_KEY=your_aws_secret_access_key
-   ```
+**Step 2: Configure AWS Credentials**
 
-3. Start the application:
-   ```bash
-   docker compose up --build
-   ```
+Create a `.env` file in the project root:
+```bash
+AWS_ACCESS_KEY_ID=your_aws_access_key_id
+AWS_SECRET_ACCESS_KEY=your_aws_secret_access_key
+```
 
-4. Access the services:
-   - **Streamlit UI**: http://localhost:8501
-   - **API Documentation**: http://localhost:8082/docs
-   - **API Endpoint**: http://localhost:8082/api/v1/
+**Step 3: Launch Services**
+```bash
+docker compose up --build
+```
+
+**Step 4: Access the Application**
+
+| Service | URL | Description |
+|---------|-----|-------------|
+| **Streamlit UI** | http://localhost:8501 | Interactive chat interface |
+| **API Docs** | http://localhost:8082/docs | OpenAPI documentation |
+| **API Endpoint** | http://localhost:8082/api/v1/ | REST API base URL |
 
 ### Manual Setup (Without Docker)
 
-1. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
+<details>
+<summary><b>Click to expand manual setup instructions</b></summary>
 
-2. Set AWS credentials:
-   ```bash
-   export AWS_ACCESS_KEY_ID="your_access_key_id"
-   export AWS_SECRET_ACCESS_KEY="your_secret_access_key"
-   ```
+**1. Install Dependencies**
+```bash
+pip install -r requirements.txt
+```
 
-3. Run the API server:
-   ```bash
-   cd api
-   uvicorn app:app --host 0.0.0.0 --port 5003
-   ```
+**2. Set AWS Credentials**
+```bash
+export AWS_ACCESS_KEY_ID="your_access_key_id"
+export AWS_SECRET_ACCESS_KEY="your_secret_access_key"
+```
 
-4. Run the Streamlit app (in another terminal):
-   ```bash
-   cd app
-   streamlit run app.py --server.port 8501
-   ```
+**3. Start API Server**
+```bash
+cd api
+uvicorn app:app --host 0.0.0.0 --port 5003
+```
+
+**4. Start Streamlit App** (new terminal)
+```bash
+cd app
+streamlit run app.py --server.port 8501
+```
+
+</details>
 
 ## API Reference
 
@@ -180,36 +260,39 @@ Each message in the `content` array should include the role tag followed by the 
 
 The model settings are defined in `api/app.py`:
 
-```python
-MODEL_NAME = 'TinyLlama-1.1B-Chat-v1.2'
-MODEL_PATH = f'saved_models/{MODEL_NAME}'
-MAX_LENGTH = 2048  # Maximum context length
-```
+| Parameter | Value | Description |
+|-----------|-------|-------------|
+| `MODEL_NAME` | `TinyLlama-1.1B-Chat-v1.2` | Current model version |
+| `MAX_LENGTH` | `2048` | Maximum context window size |
+| `load_in_8bit` | `True` | 8-bit quantization for efficiency |
 
 ### AWS S3 Configuration
 
-Model files are stored in AWS S3. Configure in `utils/io.py`:
+Configure S3 storage settings in `utils/io.py`:
 
-```python
-bucket_name = "mausneg-mlops"
-s3_prefix = "saved_models"
-```
+| Parameter | Value |
+|-----------|-------|
+| `bucket_name` | `mausneg-mlops` |
+| `s3_prefix` | `saved_models` |
 
 ### Environment Variables
 
-Create a `.env` file with the following variables:
+Create a `.env` file:
 
 ```bash
 AWS_ACCESS_KEY_ID=your_aws_access_key_id
 AWS_SECRET_ACCESS_KEY=your_aws_secret_access_key
 ```
 
-### Docker Compose Configuration
+### Docker Services
 
-The `docker-compose.yml` includes:
-- **API Service**: FastAPI backend on port 5003
-- **Nginx Service**: Reverse proxy on port 8082
-- **GPU Support**: Automatic GPU device allocation
+| Service | Port | Description |
+|---------|------|-------------|
+| **API** | 5003 | FastAPI backend service |
+| **Nginx** | 8082 | Reverse proxy and load balancer |
+| **Streamlit** | 8501 | Web interface (if configured) |
+
+**GPU Support**: Automatically enabled via Docker Compose device allocation.
 
 ## Model Fine-Tuning
 
@@ -275,96 +358,127 @@ docker compose up -d api
 
 ## Troubleshooting
 
-### Common Issues
+<details>
+<summary><b>Common Issues & Solutions</b></summary>
 
-#### 1. AWS Credentials Error
+### AWS Credentials Error
+
+**Error:**
 ```
 botocore.exceptions.ClientError: InvalidAccessKeyId
 ```
-**Solution**:
-- Verify AWS credentials in `.env` file
-- Check credentials expiration in AWS IAM Console
-- Ensure credentials have S3 read permissions
 
-#### 2. Model Download Failure
-**Solution**:
-- Check AWS S3 bucket access
-- Verify model path: `saved_models/TinyLlama-1.1B-Chat-v1.2`
-- Check network connectivity to AWS
+**Solutions:**
+- Verify credentials in `.env` file are correct
+- Check credentials haven't expired in AWS IAM Console
+- Ensure IAM user has S3 read permissions
+- Confirm credentials are loaded in container environment
 
-#### 3. GPU Memory Issues
-**Solution**:
-- Model uses 8-bit quantization by default
-- Reduce `MAX_LENGTH` in `api/app.py`
-- Monitor GPU usage: `nvidia-smi`
+### Model Download Failure
 
-#### 4. Slow Response Times
-**Solution**:
-- Ensure GPU is enabled in Docker Compose
-- Check container resource allocation
-- Reduce `max_new_tokens` parameter
+**Solutions:**
+- Verify AWS S3 bucket access permissions
+- Check model path exists: `saved_models/TinyLlama-1.1B-Chat-v1.2`
+- Test network connectivity to AWS S3
+- Review container logs: `docker compose logs api`
 
-#### 5. Connection Refused
-**Solution**:
+### GPU Memory Issues
+
+**Solutions:**
+- Model uses 8-bit quantization by default (already optimized)
+- Reduce `MAX_LENGTH` parameter in `api/app.py`
+- Monitor GPU memory: `nvidia-smi`
+- Restart containers: `docker compose restart`
+
+### Slow Response Times
+
+**Solutions:**
+- Verify GPU is enabled: `docker compose ps` and check device allocation
+- Check container resource limits: `docker stats`
+- Reduce `max_new_tokens` in generation pipeline
+- Ensure no other GPU-intensive processes are running
+
+### Connection Refused
+
+**Solutions:**
 - Verify all containers are running: `docker compose ps`
 - Check port availability: `netstat -tulpn | grep 8082`
-- Review Nginx configuration
+- Review Nginx logs: `docker compose logs nginx`
+- Restart services: `docker compose down && docker compose up -d`
 
-### Monitoring
+</details>
+
+### Monitoring Commands
 
 ```bash
-# Check GPU usage
+# Check GPU utilization
 nvidia-smi
 
-# Monitor container logs
+# Monitor API logs
 docker compose logs -f api
+
+# Monitor Nginx logs
 docker compose logs -f nginx
 
-# Check container resource usage
+# Check resource usage
 docker stats
 
-# Test API endpoint
+# Test API health
 curl http://localhost:8082/docs
 ```
 
 ## Technology Stack
 
-- **Machine Learning**: PyTorch, Transformers, PEFT, BitsAndBytes
-- **Backend**: FastAPI, Uvicorn
-- **Frontend**: Streamlit
-- **Infrastructure**: Docker, Nginx
-- **Storage**: AWS S3, Boto3
-- **Model**: TinyLlama-1.1B-Chat
+| Category | Technologies |
+|----------|--------------|
+| **Machine Learning** | PyTorch, Transformers, PEFT, BitsAndBytes |
+| **Backend** | FastAPI, Uvicorn |
+| **Frontend** | Streamlit |
+| **Infrastructure** | Docker, Docker Compose, Nginx |
+| **Cloud Storage** | AWS S3, Boto3 |
+| **Model** | TinyLlama-1.1B-Chat |
 
 ## Contributing
 
-Contributions are welcome! Please follow these steps:
+We welcome contributions! Here's how you can help:
 
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feature/your-feature`
-3. Commit your changes: `git commit -m 'Add new feature'`
-4. Push to the branch: `git push origin feature/your-feature`
-5. Open a Pull Request
+1. **Fork** the repository
+2. **Create** a feature branch: `git checkout -b feature/your-feature`
+3. **Commit** your changes: `git commit -m 'Add new feature'`
+4. **Push** to the branch: `git push origin feature/your-feature`
+5. **Open** a Pull Request
+
+Please ensure your code follows the project's coding standards and includes appropriate tests.
 
 ## License
 
-This project is licensed under the MIT License. See the LICENSE file for details.
+This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) file for details.
 
 ## Acknowledgments
 
+This project builds upon excellent open-source work:
+
 - [TinyLlama](https://github.com/jzhang38/TinyLlama) - Base language model
-- [Hugging Face](https://huggingface.co) - Transformers library and model hosting
-- [PEFT](https://github.com/huggingface/peft) - Parameter-efficient fine-tuning
+- [Hugging Face](https://huggingface.co) - Transformers library and model hub
+- [PEFT](https://github.com/huggingface/peft) - Parameter-efficient fine-tuning library
 - [FastAPI](https://fastapi.tiangolo.com) - Modern web framework
-- [Streamlit](https://streamlit.io) - Interactive web applications
+- [Streamlit](https://streamlit.io) - Interactive web application framework
 
 ## Support
 
-For issues and questions:
+**Need help?**
+
 - Open an issue on [GitHub Issues](https://github.com/mausneg/Tiny-LLAMA-Chatbot-Fine-Tuning/issues)
-- Check the API documentation at http://localhost:8082/docs
-- Review the troubleshooting section above
+- Check the [API Documentation](http://localhost:8082/docs)
+- Review the [Full Documentation](https://www.canva.com/design/DAG1xSh07_c/M_hb1V3nN00kk1GphQRBNg/edit)
+- Read the [Troubleshooting](#troubleshooting) section
 
 ---
 
-**Note**: This project is intended for educational and research purposes. Ensure responsible AI usage and implement appropriate safety measures for production deployments.
+<p align="center">
+  <sub>Built with ❤️ for the AI community</sub>
+</p>
+
+<p align="center">
+  <sub><strong>Note:</strong> This project is intended for educational and research purposes. Please ensure responsible AI usage and implement appropriate safety measures for production deployments.</sub>
+</p>
