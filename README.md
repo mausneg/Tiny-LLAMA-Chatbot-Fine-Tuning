@@ -2,6 +2,14 @@
 
 A production-ready conversational AI chatbot powered by TinyLlama-1.1B model with fine-tuning capabilities. This project includes a FastAPI backend, Streamlit web interface, and Docker deployment configuration.
 
+## Screenshots
+
+### Streamlit Web Interface
+![Streamlit UI](assets/images/streamlit-ui.png)
+
+### Usage Example
+![Sample Conversation](assets/images/sample.png)
+
 ## Features
 
 - **TinyLlama-1.1B Model**: Lightweight language model optimized for conversational AI
